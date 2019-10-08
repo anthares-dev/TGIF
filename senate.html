@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://kit.fontawesome.com/2441a3b8e4.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>TGIF 113th Congress Senate Members</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <!--Header-->
+      <header class="py-3">
+        <div class="row justify-content-between align.items-center">
+          <div class="col-sm-4">
+            <a href="index.html"
+              ><img
+                src="./images/LOGOTGIF.jpg"
+                class="img-fluid"
+                alt="Logo TGIF"
+            /></a>
+          </div>
+          <div class="col-sm-4 text-right">
+            <a href="mailto:info@tgif.net"
+              ><i class="fas fa-envelope"></i> info@tgif.net</a
+            >
+          </div>
+        </div>
+      </header>
+      <!--Header-->
+
+      <!--Navbar-->
+      <nav
+        class="navbar navbar-expand-lg navbar-light bg-light border border-dark my-3"
+      >
+        <div class="navbar-expand" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="#"
+                >Home <span class="sr-only">(current)</span></a
+              >
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Congress 113
+              </a>
+              <div
+                class="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <a class="dropdown-item" href="house_repres.html">House</a>
+                <a class="dropdown-item active" href="#">Senate</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!--Navbar-->
+
+      <!--Table container-->
+      <div>
+        <h2>Senators</h2>
+        <p>
+          First convened in 1789, the composition and powers of the Senate are
+          established in Article One of the U.S. Constitution. Each state is
+          represented by two senators, regardless of population, who serve
+          staggered six-year terms. The Senate has several exclusive powers not
+          granted to the House, including consenting to treaties as a
+          precondition to their ratification and consenting to or confirming
+          appointments of Cabinet secretaries, federal judges, other federal
+          executive officials, military officers, regulatory officials,
+          ambassadors, and other federal uniformed officers, as well as trial of
+          federal officials impeached by the House.
+        </p>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th>Senator</th>
+              <th>Party affiliation</th>
+              <th>State</th>
+              <th>Years in Office</th>
+              <th>% Votes w/ Party</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <!--Table container-->
+
+      <!-- Footer https://mdbootstrap.com/docs/jquery/navigation/footer/-->
+      <footer class="page-footer font-small bg-light border border-dark my-3">
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">
+          © 2016 TGIF |
+          <a href="#"> All Rights Reserved</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+      <!-- Footer -->
+    </div>
+    <!-- Container -->
+
+    <script src="./pro-Congress-senate.js"></script>
+    <script src="./main.js"></script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
