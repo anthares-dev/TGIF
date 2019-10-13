@@ -26,15 +26,15 @@ Add click event listener where we will provide logic that updates the button tex
 */
 button.addEventListener("click", function() {
   /*
-  Update the text of the button to toggle beween "More" and "Less" when clicked
+  Update the text and incon of the button to toggle beween "More" and "Less" when clicked
   */
   console.log(button.innerHTML);
 
   if (button.innerHTML.includes("more")) {
     button.innerHTML =
-      "less <i class='fas fa-arrow-up' data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample'></i>";
+      "less <i class='fas fa-arrow-up' data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample' role='none presentation'></i>";
   } else {
     button.innerHTML =
-      "more <i class='fas fa-arrow-down'data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample'></i>";
+      "more <i class='fas fa-arrow-down'data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample' role='none presentation'></i>";
   }
 });
