@@ -17,7 +17,7 @@
       src="https://kit.fontawesome.com/2441a3b8e4.js"
       crossorigin="anonymous"
     ></script>
-    <title>Senate Loyalty</title>
+    <title>House Attendance</title>
   </head>
 
   <body>
@@ -94,7 +94,7 @@
             <!-- Dropdown Attendance -->
             <li class="nav-item dropdown">
               <a
-                class="nav-link dropdown-toggle "
+                class="nav-link dropdown-toggle active"
                 href="#"
                 id="navbarDropdown"
                 role="button"
@@ -107,8 +107,8 @@
                 class="dropdown-menu dropdown-primary"
                 aria-labelledby="navbarDropdown"
               >
-                <a class="dropdown-item" href="attendance_house.html">House</a>
-                <a class="dropdown-item " href="attendance_senate.html"
+                <a class="dropdown-item active" href="#">House</a>
+                <a class="dropdown-item" href="attendance_senate.html"
                   >Senate</a
                 >
               </div>
@@ -117,7 +117,7 @@
             <!-- Dropdown Party Loyalty -->
             <li class="nav-item dropdown">
               <a
-                class="nav-link dropdown-toggle active"
+                class="nav-link dropdown-toggle"
                 href="#"
                 id="navbarDropdown"
                 role="button"
@@ -131,7 +131,7 @@
                 aria-labelledby="navbarDropdown"
               >
                 <a class="dropdown-item" href="loyalty_house.html">House</a>
-                <a class="dropdown-item active" href="#">Senate</a>
+                <a class="dropdown-item" href="loyalty_senate.html">Senate</a>
               </div>
             </li>
           </ul>
@@ -153,16 +153,28 @@
       <div>
         <div class="row">
           <div class="col-md-6">
-            <h2>Party Loyalty</h2>
+            <h2>Attendance</h2>
             <p>
-              Those who consider themselves to be strong partisans, strong
-              Democrats and strong Republicans respectively, tend to be the most
-              faithful in voting for their party's nominee for office and
-              legislation that backs their party's agenda.
+              The Constitution specifies that a majority of members constitutes
+              a quorum to do business in each house. Representatives and
+              senators rarely force the presence of a quorum by demanding quorum
+              calls; thus, in most cases, debates continue even if a majority is
+              not present.
+            </p>
+
+            <p>
+              The Senate uses roll-call votes; a clerk calls out the names of
+              all the senators, each senator stating "aye" or "no" when his or
+              her name is announced. The House reserves roll-call votes for the
+              most formal matters, as a roll-call of all 435 representatives
+              takes quite some time; normally, members vote by electronic
+              device. In the case of a tie, the motion in question fails. In the
+              Senate, the Vice President may (if present) cast the tiebreaking
+              vote.
             </p>
           </div>
           <div class="col-md-6">
-            <h3>Senate at a glance</h3>
+            <h3>House at a glance</h3>
             <table class="table">
               <thead>
                 <tr>
@@ -201,29 +213,29 @@
 
         <div class="row">
           <div class="col-md-6">
-            <h3>Least Loyal (Bottom 10% of Party)</h3>
+            <h3>Least Engaged (Bottom 10% Attendance)</h3>
             <table class="table">
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Number Party Votes</th>
-                  <th>% Party Votes</th>
+                  <th>Number of Missed Votes</th>
+                  <th>% Missed</th>
                 </tr>
               </thead>
-              <tbody id="tableBodyLeastLoyalty"></tbody>
+              <tbody id="tableBodyLeast"></tbody>
             </table>
           </div>
           <div class="col-md-6">
-            <h3>Most Loyal (Top 10% of Party)</h3>
+            <h3>Most Engaged (Top 10% Attendance)</h3>
             <table class="table">
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Number Party Votes</th>
-                  <th>% Party Votes</th>
+                  <th>Number of Missed Votes</th>
+                  <th>% Missed</th>
                 </tr>
               </thead>
-              <tbody id="tableBodyMostLoyalty"></tbody>
+              <tbody id="tableBodyMost"></tbody>
             </table>
           </div>
         </div>
@@ -257,7 +269,7 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    <script src="./pro-Congress-senate.js"></script>
-    <script src="./loyalty.js"></script>
+    <script src="./pro-Congress-house.js"></script>
+    <script src="./statistics-objects.js"></script>
   </body>
 </html>

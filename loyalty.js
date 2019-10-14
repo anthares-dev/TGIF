@@ -1,6 +1,3 @@
-//! it will contain all my statistic functionalities and instantiate an object named statistics.
-// i can simplify it all
-
 let membersArray = data.results[0].members;
 let listPercVotesRep = []; //non ne ho bisogno
 let listPercVotesDem = [];
@@ -86,44 +83,43 @@ function glanceList(array) {
 
 glanceList(membersArray);
 
-console.log(statistics);
+//!  Display top 10% least and most loyalty in the table, sort, and handle duplicate data points
 
-//!  Display top 10% least and most engaged in the table, sort, and handle duplicate data points
-// sorting https://stackoverflow.com/questions/51412901/javascript-sort-an-array-of-objects-based-on-numeric-key
-
-function createTableEngaged(array, x, y, id) {
+function createTableLoyalty(array, x, y, id) {
   array.sort(function(a, b) {
-    return x * a.missed_votes_pct + y * b.missed_votes_pct;
+    return x * a.votes_with_party_pct + y * b.votes_with_party_pct;
   });
 
   let memTen = [];
   for (i = 0; i < array.length; i++) {
     if (i < Math.round(0.1 * array.length)) {
       memTen.push(array[i]);
-    } else if (array[i - 1].missed_votes === array[i].missed_votes) {
+    } else if (
+      array[i - 1].votes_with_party_pct === array[i].votes_with_party_pct
+    ) {
       memTen.push(array[i]);
     } else {
       break;
     }
   }
-  buildTable(memTen, id);
+  buildTableLoyalty(memTen, id);
 }
 
-createTableEngaged(membersArray, -1, +1, "tableBodyLeast");
-createTableEngaged(membersArray, +1, -1, "tableBodyMost");
+createTableLoyalty(membersArray, +1, -1, "tableBodyLeastLoyalty");
+createTableLoyalty(membersArray, -1, +1, "tableBodyMostLoyalty");
 
-function buildTable(array, id) {
+function buildTableLoyalty(array, id) {
   var tbody = document.getElementById(id);
   for (let i = 0; i < array.length; i++) {
     var row = document.createElement("tr");
     var fullName = document.createElement("td");
-    var missedVotes = document.createElement("td");
-    var percMissedVotes = document.createElement("td");
+    var partyVotes = document.createElement("td");
+    var percVotesParty = document.createElement("td");
     var urlPage = document.createElement("a");
     var att = document.createAttribute("href");
 
     tbody.append(row);
-    row.append(fullName, missedVotes, percMissedVotes);
+    row.append(fullName, partyVotes, percVotesParty);
     fullName.append(urlPage);
     urlPage.setAttributeNode(att);
     att.value = array[i].url;
@@ -134,7 +130,7 @@ function buildTable(array, id) {
       (array[i].middle_name || " ") +
       array[i].first_name;
 
-    missedVotes.innerHTML = array[i].missed_votes;
-    percMissedVotes.innerHTML = array[i].missed_votes_pct + " %";
+    partyVotes.innerHTML = array[i].total_votes;
+    percVotesParty.innerHTML = array[i].votes_with_party_pct + " %";
   }
 }
