@@ -175,7 +175,58 @@
             </p>
           </div>
         </div>
-        <table class="table table-striped">
+        <div class=" row form-group mb-3">
+          <div class="col-md-8">
+            <div class="form-check form-check-inline">
+              Filter by Party:
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="dem"
+                value="D"
+                name="dri"
+                checked
+              />
+              <label class="form-check-label" for="dem">Democrats</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="rep"
+                value="R"
+                name="dri"
+                checked
+              />
+              <label class="form-check-label" for="rep">Republicans</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="ind"
+                value="I"
+                name="dri"
+                checked
+              />
+              <label class="form-check-label" for="ind">Indipendents</label>
+            </div>
+          </div>
+          <div class="col-md-4 form-inline justify-content-end">
+            <div class="form-check form-check-inline">
+              Filter by State:
+            </div>
+            <div class="form-check form-check-inline">
+              <select class="custom-select scrollable-menu" id="listState">
+                <option value="all" selected>All states</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <table class="table">
           <thead class="thead-light">
             <tr>
               <th>Congressmen</th>
@@ -186,6 +237,7 @@
             </tr>
           </thead>
           <tbody id="tableBody"></tbody>
+          <tr id="uncheckedAlert"></tr>
         </table>
       </div>
       <!--Table container-->

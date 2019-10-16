@@ -97,6 +97,7 @@ function createTableEngaged(array, x, y, id) {
   });
 
   let memTen = [];
+
   for (i = 0; i < array.length; i++) {
     if (i < Math.round(0.1 * array.length)) {
       memTen.push(array[i]);
@@ -106,6 +107,7 @@ function createTableEngaged(array, x, y, id) {
       break;
     }
   }
+
   buildTable(memTen, id);
 }
 
@@ -114,6 +116,7 @@ createTableEngaged(membersArray, +1, -1, "tableBodyMost");
 
 function buildTable(array, id) {
   var tbody = document.getElementById(id);
+
   for (let i = 0; i < array.length; i++) {
     var row = document.createElement("tr");
     var fullName = document.createElement("td");
