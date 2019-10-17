@@ -1,3 +1,5 @@
+//! GLOBAL VARIABLES calling
+var pageUrl = document.URL;
 let membersArray = data.results[0].members;
 let listPercVotesRep = []; //non ne ho bisogno
 let listPercVotesDem = [];
@@ -19,7 +21,50 @@ let statistics = {
   mostEngage: []
 };
 
-//! Creating one function in order to take statistics for every party
+if (pageUrl.includes("loyalty_senate.html")) {
+  url = "https://api.propublica.org/congress/v1/113/senate/members.json";
+  console.log("calling data from api-prorepublica - Senate chamber");
+} else if (pageUrl.includes("loyalty_house.html")) {
+  url = "https://api.propublica.org/congress/v1/113/house/members.json";
+  console.log("calling data from api-prorepublica - House chamber");
+} else {
+  var tbody = document.getElementById("tableBody");
+  tbody.innerHTML =
+    "<tr><td colspan='5'></td></tr><tr><td colspan='5' class='alert alert-info py-2 text-center' role='alert'>" +
+    "no data from the source" +
+    "</<td></tr>";
+}
+
+fetch(url, {
+  method: "GET",
+  headers: {
+    "X-API-Key": "jE5SNQfVeb7jWnJGjzcnGJB83JNqzFh1Vg5Ooi36"
+  }
+})
+  .then(response => {
+    return response.json();
+  })
+  .then(json => {
+    return json;
+  })
+  .then(data => {
+    console.log(data);
+    membersArray = data.results[0].members;
+    init();
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+//! FUNCTIONS calling
+function init() {
+  glanceList(membersArray);
+  createTableLoyalty(membersArray, +1, -1, "tableBodyLeastLoyalty");
+  createTableLoyalty(membersArray, -1, +1, "tableBodyMostLoyalty");
+}
+
+//! FUNCTIONS declaration
+//* Creating one function in order to take statistics for every party
 
 function glanceList(array) {
   let totalVotes = 0;
@@ -81,9 +126,7 @@ function glanceList(array) {
   percTot.innerHTML = statistics.totalAvarPerVotesRounded + " %";
 }
 
-glanceList(membersArray);
-
-//!  Display top 10% least and most loyalty in the table, sort, and handle duplicate data points
+//*  Display top 10% least and most loyalty in the table, sort, and handle duplicate data points
 
 function createTableLoyalty(array, x, y, id) {
   array.sort(function(a, b) {
@@ -104,9 +147,6 @@ function createTableLoyalty(array, x, y, id) {
   }
   buildTableLoyalty(memTen, id);
 }
-
-createTableLoyalty(membersArray, +1, -1, "tableBodyLeastLoyalty");
-createTableLoyalty(membersArray, -1, +1, "tableBodyMostLoyalty");
 
 function buildTableLoyalty(array, id) {
   var tbody = document.getElementById(id);

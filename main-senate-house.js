@@ -1,18 +1,89 @@
 //document.getElementById("senate-data").innerHTML = JSON.stringify(data, null, 2);
 
 //! GLOBAL VARIABLES calling
-let members = data.results[0].members;
+var pageUrl = document.URL;
+let members;
 let checkboxDem = document.getElementById("dem");
 let checkboxRep = document.getElementById("rep");
 let checkboxInd = document.getElementById("ind");
 let option = document.getElementById("listState");
 
+if (pageUrl.includes("senate.html")) {
+  url = "https://api.propublica.org/congress/v1/113/senate/members.json";
+  console.log("calling data from api-prorepublica - Senate chamber");
+} else if (pageUrl.includes("house.html")) {
+  url = "https://api.propublica.org/congress/v1/113/house/members.json";
+  console.log("calling data from api-prorepublica - House chamber");
+} else {
+  var tbody = document.getElementById("tableBody");
+  tbody.innerHTML =
+    "<tr><td colspan='5'></td></tr><tr><td colspan='5' class='alert alert-info py-2 text-center' role='alert'>" +
+    "no data from the source" +
+    "</<td></tr>";
+}
+
+fetch(url, {
+  method: "GET",
+  headers: {
+    "X-API-Key": "jE5SNQfVeb7jWnJGjzcnGJB83JNqzFh1Vg5Ooi36"
+  }
+})
+  .then(response => {
+    return response.json();
+  })
+  .then(json => {
+    return json;
+  })
+  .then(data => {
+    console.log(data);
+    members = data.results[0].members;
+    init();
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+/*else {
+  console.log("calling data from api-prorepublica - House chamber");
+  fetch("https://api.propublica.org/congress/v1/113/house/members.json", {
+    method: "GET",
+    headers: {
+      "X-API-Key": "jE5SNQfVeb7jWnJGjzcnGJB83JNqzFh1Vg5Ooi36"
+    }
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(json => {
+      return json;
+    })
+    .then(data => {
+      console.log(data);
+      members = data.results[0].members;
+      init();
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+/*
+else {
+  var tbody = document.getElementById("tableBody");
+  tbody.innerHTML =
+    "<tr><td colspan='5'></td></tr><tr><td colspan='5' class='alert alert-info py-2 text-center' role='alert'>" +
+    "no data from the source" +
+    "</<td></tr>";
+}
+*/
+
 //! FUNCTIONS calling
-createTable(members);
-checkboxDem.addEventListener("click", filterEngine);
-checkboxRep.addEventListener("click", filterEngine);
-checkboxInd.addEventListener("click", filterEngine);
-option.addEventListener("change", filterEngine);
+function init() {
+  createTable(members);
+  checkboxDem.addEventListener("click", filterEngine);
+  checkboxRep.addEventListener("click", filterEngine);
+  checkboxInd.addEventListener("click", filterEngine);
+  option.addEventListener("change", filterEngine);
+}
 
 //! FUNCTIONS declaration
 
