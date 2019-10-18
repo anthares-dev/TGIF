@@ -7,6 +7,7 @@ let checkboxDem = document.getElementById("dem");
 let checkboxRep = document.getElementById("rep");
 let checkboxInd = document.getElementById("ind");
 let option = document.getElementById("listState");
+var tbody = document.getElementById("tableBody");
 
 if (pageUrl.includes("senate.html")) {
   url = "https://api.propublica.org/congress/v1/113/senate/members.json";
@@ -17,7 +18,207 @@ if (pageUrl.includes("senate.html")) {
 } else {
   var tbody = document.getElementById("tableBody");
   tbody.innerHTML =
-    "<tr><td colspan='5'></td></tr><tr><td colspan='5' class='alert alert-info py-2 text-center' role='alert'>" +
+    "<tr><td colspan='5'></td></tr><tr><td colspan='5' class='alert alert-info py-2 text-center' role='danger'>" +
+    "no data from the source" +
+    "</<td></tr>";
+}
+
+/*
+var progressBar = $(".progress-bar");
+var percentVal = 0;
+
+window.setInterval(function() {
+  percentVal += 10;
+  progressBar
+    .css("width", percentVal + "%")
+    .attr("aria-valuenow", percentVal + "%")
+    .text(percentVal + "%");
+
+  if (percentVal == 60) {
+    percentVal = 100;
+    show();
+    progressBar
+      .css("width", percentVal + "%")
+      .attr("aria-valuenow", "100" + "%")
+      .text(percentVal + "%");
+  }
+}, 500);
+
+*/
+/*
+var myVar = setInterval(function() {
+  myTimer();
+}, 1);
+var count = 0;
+function myTimer() {
+  if (count < 100) {
+    $(".progress").css("width", count + "%");
+    count += 0.05;
+    document.getElementById("demo").innerHTML = Math.round(count) + "%";
+    // code to do when loading
+  } else if (count > 95) {
+    // code to do after loading
+    show();
+    count = 0;
+  } 
+}
+*/
+
+/*
+function loading() {
+
+var loading = new window.XMLHttpRequest();
+console.log(loading);
+
+var progressBar = $(".progress-bar");
+loading.addEventListener(
+  progressBar,
+  function(evt) {
+    if (evt.lengthComputable) {
+      var percentComplete = evt.loaded / evt.total;
+      console.log(percentComplete);
+      progressBar.css({
+        width: percentComplete * 100 + "%"
+      });
+
+      if (percentComplete === 1) {
+        fetching();
+        progressBar.addClass("hide");
+      }
+    }
+  },
+  false
+);
+
+  return loading;
+}
+
+*/
+/*
+var progress = $(".progress");
+var progressBar = $(".progress-bar");
+var percentVal = 0;
+
+window.setInterval(function() {
+  percentVal += 10;
+  progressBar
+    .css("width", percentVal + "%")
+    .attr("aria-valuenow", percentVal + "%")
+    .text("LOADING DATA");
+
+  if (percentVal == 100) {
+    fetching();
+
+    percentVal = 100;
+    progress.addClass("d-none");
+  }
+}, 200);
+*/
+
+var progress = $(".progress");
+var progressBar = $(".progress-bar");
+var percentVal = 0;
+console.log(progressBar.attr("aria-valuenow"));
+
+var id = setInterval(frame, 100);
+function frame() {
+  percentVal += 5;
+  if (progressBar.attr("aria-valuenow") == "100%") {
+    console.log("loading completed!");
+    console.log(progressBar.attr("aria-valuenow"));
+    clearInterval(id);
+    progress.addClass("d-none");
+  } else if (progressBar.attr("aria-valuenow") == "70%") {
+    console.log("start fetching");
+    console.log(progressBar.attr("aria-valuenow"));
+    fetching();
+
+    progressBar
+      .css("width", percentVal + "%")
+      .attr("aria-valuenow", percentVal + "%")
+      .text("LOADING DATA");
+  } else {
+    console.log("start loading");
+    console.log("loading...");
+    console.log(progressBar.attr("aria-valuenow"));
+
+    progressBar
+      .css("width", percentVal + "%")
+      .attr("aria-valuenow", percentVal + "%")
+      .text("LOADING DATA");
+  }
+}
+
+function fetching() {
+  fetch(url, {
+    method: "GET",
+    headers: {
+      "X-API-Key": "jE5SNQfVeb7jWnJGjzcnGJB83JNqzFh1Vg5Ooi36"
+    }
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(json => {
+      return json;
+    })
+    .then(data => {
+      console.log(data);
+      console.log("all data fetched!");
+      members = data.results[0].members;
+      init();
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
+//! FUNCTIONS calling
+function init() {
+  createTable(members);
+  checkboxDem.addEventListener("click", filterEngine);
+  checkboxRep.addEventListener("click", filterEngine);
+  checkboxInd.addEventListener("click", filterEngine);
+  option.addEventListener("change", filterEngine);
+}
+/*
+  //https://stackoverflow.com/questions/40166957/how-to-make-a-loading-progress-bar-in-bootstrap
+var progressBar = $(".progress-bar");
+var percentVal = 0;
+
+window.setInterval(function() {
+  percentVal += 10;
+  progressBar
+    .css("width", percentVal + "%")
+    .attr("aria-valuenow", percentVal + "%")
+    .text(percentVal + "%");
+
+  if (percentVal == 100) {
+    percentVal = 0;
+  }
+}, 500);
+*/
+
+/*
+//! GLOBAL VARIABLES calling
+var pageUrl = document.URL;
+let members;
+let checkboxDem = document.getElementById("dem");
+let checkboxRep = document.getElementById("rep");
+let checkboxInd = document.getElementById("ind");
+let option = document.getElementById("listState");
+var tbody = document.getElementById("tableBody");
+
+if (pageUrl.includes("senate.html")) {
+  url = "https://api.propublica.org/congress/v1/113/senate/members.json";
+  console.log("calling data from api-prorepublica - Senate chamber");
+} else if (pageUrl.includes("house.html")) {
+  url = "https://api.propublica.org/congress/v1/113/house/members.json";
+  console.log("calling data from api-prorepublica - House chamber");
+} else {
+  var tbody = document.getElementById("tableBody");
+  tbody.innerHTML =
+    "<tr><td colspan='5'></td></tr><tr><td colspan='5' class='alert alert-info py-2 text-center' role='danger'>" +
     "no data from the source" +
     "</<td></tr>";
 }
@@ -41,49 +242,7 @@ fetch(url, {
   })
   .catch(err => {
     console.log(err);
-  });
-
-/*else {
-  console.log("calling data from api-prorepublica - House chamber");
-  fetch("https://api.propublica.org/congress/v1/113/house/members.json", {
-    method: "GET",
-    headers: {
-      "X-API-Key": "jE5SNQfVeb7jWnJGjzcnGJB83JNqzFh1Vg5Ooi36"
-    }
-  })
-    .then(response => {
-      return response.json();
-    })
-    .then(json => {
-      return json;
-    })
-    .then(data => {
-      console.log(data);
-      members = data.results[0].members;
-      init();
-    })
-    .catch(err => {
-      console.log(err);
-    });
-}
-/*
-else {
-  var tbody = document.getElementById("tableBody");
-  tbody.innerHTML =
-    "<tr><td colspan='5'></td></tr><tr><td colspan='5' class='alert alert-info py-2 text-center' role='alert'>" +
-    "no data from the source" +
-    "</<td></tr>";
-}
-*/
-
-//! FUNCTIONS calling
-function init() {
-  createTable(members);
-  checkboxDem.addEventListener("click", filterEngine);
-  checkboxRep.addEventListener("click", filterEngine);
-  checkboxInd.addEventListener("click", filterEngine);
-  option.addEventListener("change", filterEngine);
-}
+  });*/
 
 //! FUNCTIONS declaration
 

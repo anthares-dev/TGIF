@@ -29,33 +29,70 @@ if (pageUrl.includes("attendance_senate.html")) {
   url = "https://api.propublica.org/congress/v1/113/house/members.json";
   console.log("calling data from api-prorepublica - House chamber");
 } else {
-  var tbody = document.getElementById("tableBody");
-  tbody.innerHTML =
+  var tbodyAlert = document.getElementById("uncheckedAlert");
+  tbodyAlert.innerHTML =
     "<tr><td colspan='5'></td></tr><tr><td colspan='5' class='alert alert-info py-2 text-center' role='alert'>" +
     "no data from the source" +
     "</<td></tr>";
 }
 
-fetch(url, {
-  method: "GET",
-  headers: {
-    "X-API-Key": "jE5SNQfVeb7jWnJGjzcnGJB83JNqzFh1Vg5Ooi36"
+var progress = $(".progress");
+var progressBar = $(".progress-bar");
+var percentVal = 0;
+console.log(progressBar.attr("aria-valuenow"));
+
+var id = setInterval(frame, 100);
+function frame() {
+  percentVal += 5;
+  if (progressBar.attr("aria-valuenow") == "100%") {
+    console.log("loading completed!");
+    console.log(progressBar.attr("aria-valuenow"));
+    clearInterval(id);
+    progress.addClass("d-none");
+  } else if (progressBar.attr("aria-valuenow") == "70%") {
+    console.log("start fetching");
+    console.log(progressBar.attr("aria-valuenow"));
+    fetching();
+
+    progressBar
+      .css("width", percentVal + "%")
+      .attr("aria-valuenow", percentVal + "%")
+      .text("LOADING DATA");
+  } else {
+    console.log("start loading");
+    console.log("loading...");
+    console.log(progressBar.attr("aria-valuenow"));
+
+    progressBar
+      .css("width", percentVal + "%")
+      .attr("aria-valuenow", percentVal + "%")
+      .text("LOADING DATA");
   }
-})
-  .then(response => {
-    return response.json();
+}
+
+function fetching() {
+  fetch(url, {
+    method: "GET",
+    headers: {
+      "X-API-Key": "jE5SNQfVeb7jWnJGjzcnGJB83JNqzFh1Vg5Ooi36"
+    }
   })
-  .then(json => {
-    return json;
-  })
-  .then(data => {
-    console.log(data);
-    membersArray = data.results[0].members;
-    init();
-  })
-  .catch(err => {
-    console.log(err);
-  });
+    .then(response => {
+      return response.json();
+    })
+    .then(json => {
+      return json;
+    })
+    .then(data => {
+      console.log(data);
+      console.log("all data fetched!");
+      membersArray = data.results[0].members;
+      init();
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
 
 //! FUNCTIONS calling
 function init() {
@@ -127,7 +164,7 @@ function glanceList(array) {
   percTot.innerHTML = statistics.totalAvarPerVotesRounded + " %";
 }
 
-console.log(statistics);
+//console.log(statistics);
 
 //*  Display top 10% least and most engaged in the table, sort, and handle duplicate data points
 // sorting https://stackoverflow.com/questions/51412901/javascript-sort-an-array-of-objects-based-on-numeric-key
