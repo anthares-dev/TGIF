@@ -1,3 +1,10 @@
+@import url("https://fonts.googleapis.com/css?family=Red+Hat+Display|Red+Hat+Text|Roboto|Source+Serif+Pro&display=swap");
+
+body {
+  font-family: "Red Hat Text", "Source Serif Pro", "Roboto", sans-serif;
+  font-display: "Red Hat Display", sans-serif;
+}
+
 /* .navbar,
 footer {
   background: linear-gradient(90deg, hsla(0, 0%, 100%, 0) 60%, #fff),
@@ -22,9 +29,9 @@ footer {
   height: 40px;
 }
 
-.progress-bar .progress {
+.progress .progress-bar {
   height: 40px;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
 }
 
