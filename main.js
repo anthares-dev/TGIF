@@ -1,6 +1,7 @@
 //! GLOBAL VARIABLES calling
 var pageUrl = document.URL;
 let members;
+
 //* URL API variables according to the chamber
 if (pageUrl.includes("senate.html")) {
   url = "https://api.propublica.org/congress/v1/113/senate/members.json";
@@ -17,35 +18,30 @@ if (pageUrl.includes("senate.html")) {
     "</<td></tr>";*/
 }
 
-//* INDEX.HTML - HOME
+//* INDEX.HTML - HOME PAGE
 let button = document.getElementById("less");
 
-//* SENATE.HTML AND HOUSE.HTML
-
-let listPercVotesRep = []; //non ne ho bisogno
-let listPercVotesDem = [];
-let listPercVotesInd = [];
-
-let statistics = {
-  republican: 0,
-  democrat: 0,
-  independent: 0,
-  totalMem: 0,
-  percVotesRep: 0,
-  averPercVotesRepRounded: 0,
-  percVotesDem: 0,
-  averPercVotesDemRounded: 0,
-  percVotesInd: 0,
-  averPercVotesIndRounded: 0,
-  totalAvarPerVotesRounded: 0,
-  leastEngage: [], // 10 % senstor call the information
-  mostEngage: []
-};
+//* SENATE.HTML AND HOUSE.HTML - FULL DATA PAGES
 // FILTER VARIABLES
 let checkboxDem = document.getElementById("dem");
 let checkboxRep = document.getElementById("rep");
 let checkboxInd = document.getElementById("ind");
 let option = document.getElementById("listState");
+
+//* ATTENDANCE AND LOYALTY - STATISTICS PAGES
+let glanceStats = {
+  // first col.
+  republican: 0,
+  democrat: 0,
+  independent: 0,
+  totalMem: 0,
+  // second col.
+  averPercVotesRep: 0,
+  averPercVotesDem: 0,
+  averPercVotesInd: 0,
+  totalAvarPerVotes: 0
+};
+console.log(glanceStats);
 
 //! FUNCTIONS calling
 if (pageUrl.includes("index.html")) {
@@ -60,7 +56,7 @@ if (pageUrl.includes("index.html")) {
     statisticsTable(members, +1, -1, "tableBodyMost");
   }
 } else {
-  // for senate.html and house.html
+  // for senate.html and house.html - all data showed and filter engine implemented
   function init() {
     chamberTable(members);
     checkboxDem.addEventListener("click", filterEngine);
@@ -72,14 +68,30 @@ if (pageUrl.includes("index.html")) {
 
 //! FUNCTIONS declaration
 
+//* INDEX.HTML - HOME PAGE
+//  Update the text and icon of the button to toggle between "More" and "Less" when clicked
+function toggleReadMoreLess() {
+  console.log(button.innerHTML);
+  if (button.innerHTML.includes("more")) {
+    button.innerHTML =
+      "less <i class='fas fa-arrow-up' data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample' role='none presentation'></i>";
+  } else {
+    button.innerHTML =
+      "more <i class='fas fa-arrow-down'data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample' role='none presentation'></i>";
+  }
+}
+
 //* PROGRESS BAR FOR ALL PAGES EXCEPT HOME PAGE
+// loading the progress bar and fetching data during it
 if (pageUrl.includes("senate.html") || pageUrl.includes("house.html")) {
   console.log("chamber selected");
+
   //* progressBar variables
   var progress = $(".progress");
   var progressBar = $(".progress-bar");
   var percentVal = 0;
   var setInterval = setInterval(loadingBarAndData, 100);
+
   function loadingBarAndData() {
     percentVal += 5;
     console.log(progressBar.attr("aria-valuenow"));
@@ -112,6 +124,7 @@ if (pageUrl.includes("senate.html") || pageUrl.includes("house.html")) {
   }
 }
 
+// when data is fetched, then can be called the other functions inside init() that allow to build tables
 function fetchingDatafromAPI() {
   fetch(url, {
     method: "GET",
@@ -136,19 +149,9 @@ function fetchingDatafromAPI() {
     });
 }
 
-//*  Update the text and icon of the button to toggle between "More" and "Less" when clicked
-function toggleReadMoreLess() {
-  console.log(button.innerHTML);
-  if (button.innerHTML.includes("more")) {
-    button.innerHTML =
-      "less <i class='fas fa-arrow-up' data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample' role='none presentation'></i>";
-  } else {
-    button.innerHTML =
-      "more <i class='fas fa-arrow-down'data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample' role='none presentation'></i>";
-  }
-}
-
-//* This function use a for loop to construct a table with all the data from a stringify JSON (JSON changed into a JS adding "var data =") and dropdown list with the states
+//* SENATE.HTML AND HOUSE.HTML - FULL DATA PAGES
+// This function use a for loop to construct a table
+//  with all the data from a stringify JSON (JSON changed into a JS adding "var data =") and dropdown list with the states
 function chamberTable(array) {
   var tbody = document.getElementById("tableBody"); // take the id in order to know where to start
   tbody.innerHTML = ""; // clear the table
@@ -162,7 +165,6 @@ function chamberTable(array) {
     for (i = 0, len = array.length; i < len; i++) {
       //* creating the table
       var row = document.createElement("tr"); // creating first element of the table
-
       tbody.append(row); // insert row in tbody
 
       var fullName = document.createElement("td"); // creating all other elements nested inside the first
@@ -170,12 +172,10 @@ function chamberTable(array) {
       var state = document.createElement("td");
       var seniority = document.createElement("td");
       var percentage = document.createElement("td");
-
       row.append(fullName, party, state, seniority, percentage); // insert td elements inside the row
 
       var urlPage = document.createElement("a"); // create <a> </a> that will be nested inside fullName
       var att = document.createAttribute("href"); // create attribute href: that will be assigned inside <a>
-
       fullName.append(urlPage);
       urlPage.setAttributeNode(att);
       att.value = array[i].url; // assign to href the value url http...
@@ -192,30 +192,23 @@ function chamberTable(array) {
       percentage.innerHTML = array[i].votes_with_party_pct + " %";
 
       //* creating the Dropdown list with States
-
       var stateOption = document.getElementById("listState");
       var opState = document.createElement("option");
-
       stateOption.append(opState);
 
       var idState = document.createAttribute("id");
-
       opState.setAttributeNode(idState);
-
       idState.value = array[i].state;
 
       var valueState = document.createAttribute("value");
       opState.setAttributeNode(valueState);
-
       valueState.value = array[i].state;
-
       opState.innerHTML = array[i].state;
     }
   }
 }
 
-//* This function let me filter the table according to the party and according to the state
-
+// This function let me filter the table according to the party and according to the state
 function filterEngine() {
   let partyValues = [
     ...document.querySelectorAll("input[type=checkbox]:checked") // ... mutation spread operator - trasform a nodelist into an object
@@ -223,7 +216,6 @@ function filterEngine() {
   console.log(partyValues);
 
   let stateOption = option.value;
-
   let selectedMembers = [];
 
   selectedMembers = members.filter(
@@ -241,107 +233,106 @@ function filterEngine() {
   chamberTable(selectedMembers);
 }
 
-//* Creating one function in order to take statistics for both chambers
-
+//* ATTENDANCE AND LOYALTY - STATISTICS PAGES
+// Creating one function in order to take statistics for both chambers
 function chamberGlanceTable(array) {
+  let listPercVotesRep = [];
+  let listPercVotesDem = [];
+  let listPercVotesInd = [];
   let totalVotes = 0;
+
   for (i = 0, len = array.length; i < len; i++) {
     votes = array[i].votes_with_party_pct;
     if (array[i].party == "R") {
-      statistics.republican++;
-      listPercVotesRep.push(votes);
+      glanceStats.republican++;
+      listPercVotesRep.push(votes); // push the values of votes_with_party_pct to the array
     } else if (array[i].party == "D") {
-      statistics.democrat++;
+      glanceStats.democrat++;
       listPercVotesDem.push(votes);
     } else {
-      statistics.independent++;
+      glanceStats.independent++;
       listPercVotesInd.push(votes);
     }
     totalVotes += array[i].votes_with_party_pct;
   }
 
-  statistics.totalMem =
-    statistics.republican + statistics.democrat + statistics.independent;
+  // Total numbers of represents of a chamber
+  glanceStats.totalMem =
+    glanceStats.republican + glanceStats.democrat + glanceStats.independent;
 
-  let averPercVotesRep =
-    (statistics.percVotesRep =
-      listPercVotesRep.reduce((a, b) => a + b, 0) / statistics.republican) || 0;
-  let averPercVotesDem =
-    (statistics.percVotesDem =
-      listPercVotesDem.reduce((a, b) => a + b, 0) / statistics.democrat) || 0;
-  let averPercVotesInd =
-    (statistics.percVotesInd =
-      listPercVotesInd.reduce((a, b) => a + b, 0) / statistics.independent) ||
-    0;
+  // The reduce() method reduces the array to a single value according to the function  -  in this case is making a sum of all the values
+  glanceStats.averPercVotesRep =
+    listPercVotesRep.reduce((a, b) => a + b, 0) / glanceStats.republican || 0; // OR 0 in case there is no repr. of the chamber
+  glanceStats.averPercVotesDem =
+    listPercVotesDem.reduce((a, b) => a + b, 0) / glanceStats.democrat || 0;
+  glanceStats.averPercVotesInd =
+    listPercVotesInd.reduce((a, b) => a + b, 0) / glanceStats.independent || 0;
 
-  statistics.averPercVotesRepRounded = averPercVotesRep.toFixed(2);
-  statistics.averPercVotesDemRounded = averPercVotesDem.toFixed(2);
-  statistics.averPercVotesIndRounded = averPercVotesInd.toFixed(2);
-
-  let totalAvarPerVotes = totalVotes / array.length;
-
-  statistics.totalAvarPerVotesRounded = totalAvarPerVotes.toFixed(2);
+  glanceStats.totalAvarPerVotes = totalVotes / array.length;
 
   //* adding to HTML
   buildTableGlance();
 }
 
 function buildTableGlance() {
+  // first column
   var nR = document.getElementById("num-rep");
   var nD = document.getElementById("num-dem");
   var nI = document.getElementById("num-ind");
   var nTot = document.getElementById("num-tot");
-  nR.innerHTML = statistics.republican;
-  nD.innerHTML = statistics.democrat;
-  nI.innerHTML = statistics.independent;
-  nTot.innerHTML = statistics.totalMem;
+  nR.innerHTML = glanceStats.republican;
+  nD.innerHTML = glanceStats.democrat;
+  nI.innerHTML = glanceStats.independent;
+  nTot.innerHTML = glanceStats.totalMem;
 
+  // second column
   var percR = document.getElementById("perc-rep");
   var percD = document.getElementById("perc-dem");
   var percI = document.getElementById("perc-ind");
   var percTot = document.getElementById("perc-tot");
-  percR.innerHTML = statistics.averPercVotesRepRounded + " %";
-  percD.innerHTML = statistics.averPercVotesDemRounded + " %";
-  percI.innerHTML = statistics.averPercVotesIndRounded + " %";
-  percTot.innerHTML = statistics.totalAvarPerVotesRounded + " %";
+  let averPercVotesRepRounded = glanceStats.averPercVotesRep.toFixed(2);
+  let averPercVotesDemRounded = glanceStats.averPercVotesDem.toFixed(2);
+  let averPercVotesIndRounded = glanceStats.averPercVotesInd.toFixed(2);
+  let totalAvarPerVotesRounded = glanceStats.totalAvarPerVotes.toFixed(2);
+  percR.innerHTML = averPercVotesRepRounded + " %";
+  percD.innerHTML = averPercVotesDemRounded + " %";
+  percI.innerHTML = averPercVotesIndRounded + " %";
+  percTot.innerHTML = totalAvarPerVotesRounded + " %";
 }
 
-//*  Display top 10% least and most engaged and loyalty in the table, sort, and handle duplicate data points
+//  Display top 10% least and most engaged and loyalty in the table, sort and handle duplicate data points
 // sorting https://stackoverflow.com/questions/51412901/javascript-sort-an-array-of-objects-based-on-numeric-key
 
 function statisticsTable(array, x, y, id) {
+  // sorting array per misses votes or per votes with party
   array.sort(function(a, b) {
-    if (
-      pageUrl.includes("attendance_senate.html") ||
-      pageUrl.includes("attendance_house.html")
-    ) {
+    if (pageUrl.includes("attendance")) {
       return x * a.missed_votes_pct + y * b.missed_votes_pct;
-    } else if (
-      pageUrl.includes("loyalty_senate.html") ||
-      pageUrl.includes("loyalty_house.html")
-    ) {
+    } else if (pageUrl.includes("loyalty")) {
       return y * a.votes_with_party_pct + x * b.votes_with_party_pct;
     } else {
       console.log("createTable error");
     }
   });
 
-  let memTen = [];
+  // creating an array with the 10% of the members according to the sorted array
+  let tenPercMembers = [];
 
   for (i = 0; i < array.length; i++) {
     if (i < Math.round(0.1 * array.length)) {
-      memTen.push(array[i]);
+      tenPercMembers.push(array[i]);
     } else if (
+      // put more then 10% members if the values are the same
       array[i - 1].missed_votes_pct === array[i].missed_votes_pct ||
       array[i - 1].votes_with_party_pct === array[i].votes_with_party_pct
     ) {
-      memTen.push(array[i]);
+      tenPercMembers.push(array[i]);
     } else {
       break;
     }
   }
   //* adding to HTML
-  buildTableStatistics(memTen, id);
+  buildTableStatistics(tenPercMembers, id);
 }
 
 function buildTableStatistics(array, id) {
@@ -364,19 +355,13 @@ function buildTableStatistics(array, id) {
       ", " +
       (array[i].middle_name || " ") +
       array[i].first_name;
-    if (
-      pageUrl.includes("attendance_senate.html") ||
-      pageUrl.includes("attendance_house.html")
-    ) {
+    if (pageUrl.includes("attendance")) {
       var missedVotes = document.createElement("td");
       var percMissedVotes = document.createElement("td");
       row.append(fullName, missedVotes, percMissedVotes);
       missedVotes.innerHTML = array[i].missed_votes;
       percMissedVotes.innerHTML = array[i].missed_votes_pct + " %";
-    } else if (
-      pageUrl.includes("loyalty_senate.html") ||
-      pageUrl.includes("loyalty_house.html")
-    ) {
+    } else if (pageUrl.includes("loyalty")) {
       var partyVotes = document.createElement("td");
       var percVotesParty = document.createElement("td");
       row.append(fullName, partyVotes, percVotesParty);
