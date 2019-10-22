@@ -174,73 +174,90 @@
             </p>
           </div>
         </div>
-        <div class=" row form-group mb-3">
-          <div class="col-md-8">
-            <div class="form-check form-check-inline">
-              Filter by Party:
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="dem"
-                value="D"
-                name="dri"
-                checked
-              />
-              <label class="form-check-label" for="dem">Democrats</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="rep"
-                value="R"
-                name="dri"
-                checked
-              />
-              <label class="form-check-label" for="rep">Republicans</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="ind"
-                value="I"
-                name="dri"
-                checked
-              />
-              <label class="form-check-label" for="ind">Indipendents</label>
-            </div>
-          </div>
-          <div class="col-md-4 form-inline justify-content-end">
-            <div class="form-check form-check-inline">
-              Filter by State:
-            </div>
-            <div class="form-check form-check-inline">
-              <select class="custom-select scrollable-menu" id="listState">
-                <option value="all" selected>All states</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="progress my-3">
-          <div
-            class="progress-bar progress-bar-striped progress-bar-animated"
-            role="progressbar"
-            aria-valuenow="0"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            id="progress"
-          ></div>
-        </div>
         <div id="vue-table">
+          <div class=" row form-group mb-3">
+            <div class="col-md-8">
+              <div class="form-check form-check-inline">
+                Filter by Party:
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="dem"
+                  value="D"
+                  name="dri"
+                  checked
+                  v-model="partyValues"
+                  v-on:click="filterEngine()"
+                />
+                <label class="form-check-label" for="dem">Democrats</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="rep"
+                  value="R"
+                  name="dri"
+                  checked
+                  v-model="partyValues"
+                  v-on:click="filterEngine()"
+                />
+                <label class="form-check-label" for="rep">Republicans</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="ind"
+                  value="I"
+                  name="dri"
+                  checked
+                  v-model="partyValues"
+                  v-on:click="filterEngine()"
+                />
+                <label class="form-check-label" for="ind">Indipendents</label>
+              </div>
+              <span>Checked party: {{ partyValues }}</span>
+            </div>
+            <div class="col-md-4 form-inline justify-content-end">
+              <div class="form-check form-check-inline">
+                Filter by State:
+              </div>
+              <div class="form-check form-check-inline">
+                <select class="custom-select scrollable-menu" id="listState">
+                  <option value="all" selected>All states</option>
+                  <option
+                    v-for="senator in members"
+                    v-bind:value="senator.state"
+                  >
+                    {{ senator.state }}</option
+                  >
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- !no data to fetch and no loading bar necessary
+          <div class="progress my-3">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              role="progressbar"
+              aria-valuenow="0"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              id="progress"
+            ></div>
+          </div>
+          -->
+
           <table class="table">
             <thead class="thead-light">
               <tr>
                 <th>Senator</th>
                 <th>Party affiliation</th>
-                <th>State<9in Office</th>
+                <th>State</th>
+                <th>Years in Office</th>
                 <th>% Votes w/ Party</th>
               </tr>
             </thead>
@@ -248,8 +265,10 @@
             <tbody id="tableBody" class="my-3">
               <tr v-for="senator in members">
                 <td>
-                  {{ senator.last_name }} {{ senator.middle_name }}
-                  {{ senator.first_name }}
+                  <a v-bind:href="senator.url">
+                    {{ senator.last_name }}, {{ senator.middle_name }}
+                    {{ senator.first_name }}</a
+                  >
                 </td>
                 <td>{{ senator.party }}</td>
                 <td>{{ senator.state }}</td>
@@ -260,6 +279,13 @@
             </tbody>
           </table>
         </div>
+        <a
+          id="back-to-top"
+          href="#"
+          class="btn btn-light btn-lg back-to-top"
+          role="button"
+          ><i class="fas fa-chevron-up"></i
+        ></a>
       </div>
       <!--Table container-->
 

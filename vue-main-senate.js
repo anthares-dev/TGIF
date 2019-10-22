@@ -1,8 +1,15 @@
 new Vue({
   el: "#vue-table",
   data: {
-    members: data.results[0].members
+    members: data.results[0].members,
+
+    partyValues: []
   },
-  methods: {},
+  methods: {
+    filterEngine: function() {
+      data.members ==
+        data.members.filter(senator => partyValues.includes(senator.party));
+    }
+  },
   computed: {}
 });
