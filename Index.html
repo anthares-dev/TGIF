@@ -11,6 +11,8 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <!-- VUE -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./style/css.css" />
     <script
@@ -154,7 +156,7 @@
       <!--Navbar-->
 
       <!--About container-->
-      <div>
+      <div id="vue-toggle">
         <div class="row">
           <div class="col-md-8">
             <h2>About Us</h2>
@@ -241,6 +243,8 @@
               id="less"
               aria-expanded="false"
               aria-controls="collapseExample"
+              ref="myToggleButton"
+              v-on:click="toggleReadMoreLess"
             >
               more
               <i
@@ -295,6 +299,7 @@
     ></script>
 
     <!--<script src="main-home.js"></script>-->
-    <script src="main.js"></script>
+    <!--<script src="main.js"></script>-->
+    <script src="vue-main-home.js"></script>
   </body>
 </html>

@@ -51,9 +51,11 @@ if (pageUrl.includes("index.html")) {
 } else if (pageUrl.includes("attendance") || pageUrl.includes("loyalty")) {
   // for statistics attendance and loyalty
   function init() {
+    /*
     chamberGlanceTable(members);
     statisticsTable(members, -1, +1, "tableBodyLeast");
     statisticsTable(members, +1, -1, "tableBodyMost");
+    */
   }
 } else {
   // for senate.html and house.html - all data showed and filter engine implemented
@@ -85,6 +87,7 @@ function toggleReadMoreLess() {
 // loading the progress bar and fetching data during it
 if (pageUrl.includes("senate.html") || pageUrl.includes("house.html")) {
   console.log("chamber selected");
+  console.log("start loading");
 
   //* progressBar variables
   var progress = $(".progress");
@@ -112,7 +115,6 @@ if (pageUrl.includes("senate.html") || pageUrl.includes("house.html")) {
         .attr("aria-valuenow", percentVal + "%")
         .text("LOADING DATA");
     } else {
-      console.log("start loading");
       console.log("loading...");
       console.log(progressBar.attr("aria-valuenow"));
 
@@ -232,6 +234,7 @@ function filterEngine() {
   */
   chamberTable(selectedMembers);
 }
+/*
 
 //* ATTENDANCE AND LOYALTY - STATISTICS PAGES
 // Creating one function in order to take statistics for both chambers
@@ -373,3 +376,5 @@ function buildTableStatistics(array, id) {
     }
   }
 }
+
+*/

@@ -11,6 +11,9 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <!-- VUE -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./style/css.css" />
     <script
@@ -231,21 +234,32 @@
             id="progress"
           ></div>
         </div>
+        <div id="vue-table">
+          <table class="table">
+            <thead class="thead-light">
+              <tr>
+                <th>Senator</th>
+                <th>Party affiliation</th>
+                <th>State<9in Office</th>
+                <th>% Votes w/ Party</th>
+              </tr>
+            </thead>
 
-        <table class="table">
-          <thead class="thead-light">
-            <tr>
-              <th>Senator</th>
-              <th>Party affiliation</th>
-              <th>State</th>
-              <th>Years in Office</th>
-              <th>% Votes w/ Party</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody" class="my-3">
-            <tr id="uncheckedAlert"></tr>
-          </tbody>
-        </table>
+            <tbody id="tableBody" class="my-3">
+              <tr v-for="senator in members">
+                <td>
+                  {{ senator.last_name }} {{ senator.middle_name }}
+                  {{ senator.first_name }}
+                </td>
+                <td>{{ senator.party }}</td>
+                <td>{{ senator.state }}</td>
+                <td>{{ senator.seniority }}</td>
+                <td>{{ senator.votes_with_party_pct }} %</td>
+              </tr>
+              <tr id="uncheckedAlert"></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <!--Table container-->
 
@@ -278,8 +292,9 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    <!-- <script src="./pro-Congress-senate.js"></script>-->
+    <script src="./local_data/pro-Congress-senate.js"></script>
     <!--<script src="fetching-data-senate.js"></script>-->
-    <script src="main.js"></script>
+    <!--<script src="main.js"></script>-->
+    <script src="./vue-main-senate.js"></script>
   </body>
 </html>
