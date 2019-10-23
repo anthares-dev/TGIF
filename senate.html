@@ -189,7 +189,6 @@
                   name="dri"
                   checked
                   v-model="partyValues"
-                  v-on:click="filterEngine()"
                 />
                 <label class="form-check-label" for="dem">Democrats</label>
               </div>
@@ -202,7 +201,6 @@
                   name="dri"
                   checked
                   v-model="partyValues"
-                  v-on:click="filterEngine()"
                 />
                 <label class="form-check-label" for="rep">Republicans</label>
               </div>
@@ -215,7 +213,6 @@
                   name="dri"
                   checked
                   v-model="partyValues"
-                  v-on:click="filterEngine()"
                 />
                 <label class="form-check-label" for="ind">Indipendents</label>
               </div>
@@ -229,7 +226,7 @@
                 <select class="custom-select scrollable-menu" id="listState">
                   <option value="all" selected>All states</option>
                   <option
-                    v-for="senator in members"
+                    v-for="senator in filterEngine"
                     v-bind:value="senator.state"
                   >
                     {{ senator.state }}</option
@@ -263,7 +260,7 @@
             </thead>
 
             <tbody id="tableBody" class="my-3">
-              <tr v-for="senator in members">
+              <tr v-for="senator in filterEngine">
                 <td>
                   <a v-bind:href="senator.url">
                     {{ senator.last_name }}, {{ senator.middle_name }}
