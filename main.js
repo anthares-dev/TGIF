@@ -10,7 +10,7 @@ if (pageUrl.includes("senate.html")) {
   url = "https://api.propublica.org/congress/v1/113/house/members.json";
   console.log("calling data from api-prorepublica - House chamber");
 } else {
-  console.log("no data from the source");
+  console.log("no data to fetch");
   /*var tbody = document.getElementById("tableBody");
   tbody.innerHTML =
     "<tr><td colspan='5'></td></tr><tr><td colspan='5' class='alert alert-info py-2 text-center' role='danger'>" +
@@ -40,12 +40,10 @@ let glanceStats = {
   averPercVotesInd: 0,
   totalAvarPerVotes: 0
 };
-console.log(glanceStats);
 
 //! FUNCTIONS CALLING
 if (pageUrl.includes("index.html")) {
   // for home
-  console.log("toggle");
   button.addEventListener("click", toggleReadMoreLess); // Add click event listener where we will provide logic that updates the button text
 } else if (pageUrl.includes("attendance") || pageUrl.includes("loyalty")) {
   // for statistics attendance and loyalty
@@ -53,6 +51,7 @@ if (pageUrl.includes("index.html")) {
     chamberGlanceTable(members);
     statisticsTable(members, -1, +1, "tableBodyLeast");
     statisticsTable(members, +1, -1, "tableBodyMost");
+    console.log(glanceStats);
   }
 } else {
   // for senate.html and house.html - all data showed and filter engine implemented
@@ -70,7 +69,6 @@ if (pageUrl.includes("index.html")) {
 //* INDEX.HTML - HOME PAGE
 //  Update the text and icon of the button to toggle between "More" and "Less" when clicked
 function toggleReadMoreLess() {
-  console.log(button.innerHTML);
   if (button.innerHTML.includes("more")) {
     button.innerHTML =
       "less <i class='fas fa-arrow-up' data-toggle='collapse' data-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample' role='none presentation'></i>";
