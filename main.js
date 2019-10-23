@@ -1,8 +1,8 @@
-//! GLOBAL VARIABLES calling
+//! GLOBAL VARIABLES DEFINED
 var pageUrl = document.URL;
 let members;
 
-//* URL API variables according to the chamber
+//* URL API VARIABLES according to the CHAMBER
 if (pageUrl.includes("senate.html")) {
   url = "https://api.propublica.org/congress/v1/113/senate/members.json";
   console.log("calling data from api-prorepublica - Senate chamber");
@@ -18,24 +18,23 @@ if (pageUrl.includes("senate.html")) {
     "</<td></tr>";*/
 }
 
-//* INDEX.HTML - HOME PAGE
-let button = document.getElementById("less");
+//* INDEX.HTML - HOME PAGE - TOGGLE BUTTON READ MORE AND LESS
+let button = document.getElementById("toggle");
 
-//* SENATE.HTML AND HOUSE.HTML - FULL DATA PAGES
-// FILTER VARIABLES
+//* SENATE.HTML AND HOUSE.HTML - FULL DATA PAGES - FILTER VARIABLES
 let checkboxDem = document.getElementById("dem");
 let checkboxRep = document.getElementById("rep");
 let checkboxInd = document.getElementById("ind");
 let option = document.getElementById("listState");
 
-//* ATTENDANCE AND LOYALTY - STATISTICS PAGES
+//* ATTENDANCE AND LOYALTY - STATISTICS PAGES - STATS VARIABLES
 let glanceStats = {
-  // first col.
+  // first column
   republican: 0,
   democrat: 0,
   independent: 0,
   totalMem: 0,
-  // second col.
+  // second column
   averPercVotesRep: 0,
   averPercVotesDem: 0,
   averPercVotesInd: 0,
@@ -43,7 +42,7 @@ let glanceStats = {
 };
 console.log(glanceStats);
 
-//! FUNCTIONS calling
+//! FUNCTIONS CALLING
 if (pageUrl.includes("index.html")) {
   // for home
   console.log("toggle");
@@ -66,7 +65,7 @@ if (pageUrl.includes("index.html")) {
   }
 }
 
-//! FUNCTIONS declaration
+//! FUNCTIONS DECLARATION
 
 //* INDEX.HTML - HOME PAGE
 //  Update the text and icon of the button to toggle between "More" and "Less" when clicked
@@ -142,6 +141,8 @@ function fetchingDatafromAPI() {
       console.log(data);
       console.log("all data fetched!");
       members = data.results[0].members;
+
+      //* calling the functions inside init()
       init();
     })
     .catch(err => {
@@ -153,29 +154,29 @@ function fetchingDatafromAPI() {
 // This function use a for loop to construct a table
 //  with all the data from a stringify JSON (JSON changed into a JS adding "var data =") and dropdown list with the states
 function chamberTable(array) {
-  var tbody = document.getElementById("tableBody"); // take the id in order to know where to start
-  tbody.innerHTML = ""; // clear the table
+  var tbody = document.getElementById("tableBody");
+  tbody.innerHTML = ""; // clear the table - necessary for let the selected checkboxes showing the filteres data
 
   if (array.length == 0) {
     tbody.innerHTML =
       "<tr><td colspan='5'></td></tr><tr><td colspan='5' class='alert alert-info py-2 text-center' role='alert'>" +
       "Select at least one party!" +
-      "</<td></tr>";
+      "</td></tr>";
   } else {
     for (i = 0, len = array.length; i < len; i++) {
       //* creating the table
-      var row = document.createElement("tr"); // creating first element of the table
-      tbody.append(row); // insert row in tbody
+      var row = document.createElement("tr");
+      tbody.append(row);
 
-      var fullName = document.createElement("td"); // creating all other elements nested inside the first
+      var fullName = document.createElement("td");
       var party = document.createElement("td");
       var state = document.createElement("td");
       var seniority = document.createElement("td");
       var percentage = document.createElement("td");
-      row.append(fullName, party, state, seniority, percentage); // insert td elements inside the row
+      row.append(fullName, party, state, seniority, percentage);
 
-      var urlPage = document.createElement("a"); // create <a> </a> that will be nested inside fullName
-      var att = document.createAttribute("href"); // create attribute href: that will be assigned inside <a>
+      var urlPage = document.createElement("a");
+      var att = document.createAttribute("href");
       fullName.append(urlPage);
       urlPage.setAttributeNode(att);
       att.value = array[i].url; // assign to href the value url http...
@@ -183,7 +184,7 @@ function chamberTable(array) {
       urlPage.innerHTML =
         array[i].last_name +
         ", " +
-        (array[i].middle_name || " ") + // ( .. ) if true, write the content, else put blank space " "
+        (array[i].middle_name || " ") + // if true, write the content, else put blank space " "
         array[i].first_name;
 
       party.innerHTML = array[i].party;
@@ -208,7 +209,7 @@ function chamberTable(array) {
   }
 }
 
-// This function let me filter the table according to the party and according to the state
+//* This function let me filter the table according to the party and according to the state
 function filterEngine() {
   let partyValues = [
     ...document.querySelectorAll("input[type=checkbox]:checked") // ... mutation spread operator - trasform a nodelist into an object
@@ -219,17 +220,12 @@ function filterEngine() {
   let selectedMembers = [];
 
   selectedMembers = members.filter(
+    // The filter() method creates an array filled with all array elements that pass a test (provided as a function)
     member =>
       partyValues.includes(member.party) &&
       (stateOption.includes(member.state) || stateOption.includes("all"))
   );
 
-  // The filter() method creates an array filled with all array elements that pass a test (provided as a function)
-  /*
-    -- selectedMembers = members.party --> it could be all members of the parties R D I
-    --but I want to fill selectedMembers with the members corrispondenting to the values inside partyValues
-    -- partyValues change according to checked or not checkboxes.
-  */
   chamberTable(selectedMembers);
 }
 
@@ -300,11 +296,11 @@ function buildTableGlance() {
   percTot.innerHTML = totalAvarPerVotesRounded + " %";
 }
 
-//  Display top 10% least and most engaged and loyalty in the table, sort and handle duplicate data points
+//*  Display top 10% least and most engaged and loyalty in the table, sort and handle duplicate data points
 // sorting https://stackoverflow.com/questions/51412901/javascript-sort-an-array-of-objects-based-on-numeric-key
 
 function statisticsTable(array, x, y, id) {
-  // sorting array per misses votes or per votes with party
+  //* sorting array per misses votes or per votes with party according to the URL page
   array.sort(function(a, b) {
     if (pageUrl.includes("attendance")) {
       return x * a.missed_votes_pct + y * b.missed_votes_pct;
@@ -315,8 +311,7 @@ function statisticsTable(array, x, y, id) {
     }
   });
 
-  // creating an array with the 10% of the members according to the sorted array
-  let tenPercMembers = [];
+  let tenPercMembers = []; // creating an array with the 10% of the members according to the sorted array
 
   for (i = 0; i < array.length; i++) {
     if (i < Math.round(0.1 * array.length)) {
