@@ -1,6 +1,6 @@
 //! GLOBAL VARIABLES DEFINED
 const pageUrl = document.URL;
-var members;
+let members;
 
 //* url API VARIABLES according to the CHAMBER
 if (pageUrl.includes("senate.html")) {
@@ -45,13 +45,13 @@ const percD = document.getElementById("perc-dem");
 const percI = document.getElementById("perc-ind");
 const percTot = document.getElementById("perc-tot");
 
-var listPercVotesRep = [];
-var listPercVotesDem = [];
-var listPercVotesInd = [];
-var totalVotes = 0;
-var tenPercMembers = []; // creating an array with the 10% of the members according to the sorted array
+let listPercVotesRep = [];
+let listPercVotesDem = [];
+let listPercVotesInd = [];
+let totalVotes = 0;
+let tenPercMembers = []; // creating an array with the 10% of the members according to the sorted array
 
-var glanceStats = {
+let glanceStats = {
   // first column
   republican: 0,
   democrat: 0,
@@ -106,7 +106,7 @@ function toggleReadMoreLess() {
 if (pageUrl.includes("senate.html") || pageUrl.includes("house.html")) {
   console.log("chamber selected");
   console.log("start loading");
-  var percentVal = 0;
+  let percentVal = 0;
   var setInterval = setInterval(loadingBarAndData, 100);
 
   function loadingBarAndData() {
@@ -227,13 +227,13 @@ function chamberTable(array) {
 
 //* This function let me filter the table according to the party and according to the state
 function filterEngine() {
-  var partyValues = [
+  let partyValues = [
     ...document.querySelectorAll("input[type=checkbox]:checked") // ... mutation spread operator - trasform a nodelist into an object
   ].map(checkbox => checkbox.value); // The map() method creates a new array with the results of calling a function for every array element.
   console.log(partyValues);
 
-  var stateOption = option.value;
-  var selectedMembers = [];
+  let stateOption = option.value;
+  let selectedMembers = [];
 
   selectedMembers = members.filter(
     // The filter() method creates an array filled with all array elements that pass a test (provided as a function)
@@ -288,10 +288,10 @@ function buildTableGlance() {
   nI.innerHTML = glanceStats.independent;
   nTot.innerHTML = glanceStats.totalMem;
   // second column
-  var averPercVotesRepRounded = glanceStats.averPercVotesRep.toFixed(2);
-  var averPercVotesDemRounded = glanceStats.averPercVotesDem.toFixed(2);
-  var averPercVotesIndRounded = glanceStats.averPercVotesInd.toFixed(2);
-  var totalAvarPerVotesRounded = glanceStats.totalAvarPerVotes.toFixed(2);
+  let averPercVotesRepRounded = glanceStats.averPercVotesRep.toFixed(2);
+  let averPercVotesDemRounded = glanceStats.averPercVotesDem.toFixed(2);
+  let averPercVotesIndRounded = glanceStats.averPercVotesInd.toFixed(2);
+  let totalAvarPerVotesRounded = glanceStats.totalAvarPerVotes.toFixed(2);
   percR.innerHTML = averPercVotesRepRounded + " %";
   percD.innerHTML = averPercVotesDemRounded + " %";
   percI.innerHTML = averPercVotesIndRounded + " %";
