@@ -49,7 +49,6 @@ let listPercVotesRep = [];
 let listPercVotesDem = [];
 let listPercVotesInd = [];
 let totalVotes = 0;
-let tenPercMembers = []; // creating an array with the 10% of the members according to the sorted array
 
 let glanceStats = {
   // first column
@@ -303,6 +302,7 @@ function buildTableGlance() {
 
 function statisticsTable(array, x, y, id) {
   //* sorting array per misses votes or per votes with party according to the URL page
+  let tenPercMembers = []; // creating an array with the 10% of the members according to the sorted array
   array.sort(function(a, b) {
     if (pageUrl.includes("attendance")) {
       return x * a.missed_votes_pct + y * b.missed_votes_pct;
